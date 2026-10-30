@@ -24,9 +24,59 @@ const logsList = document.getElementById('logs-list');
 let weightChart = null;
 let allLogs = [];
 
-// Inicializa o seletor de data com o dia de hoje
 const todayStr = new Date().toLocaleDateString('en-CA');
 logDateInput.value = todayStr;
+
+// ============================================================================
+// 0. GERADOR DE ÍCONE MINIMALISTA COM MARGEM AMPLA PARA IPHONE (APPLE TOUCH ICON)
+// ============================================================================
+function generateSafeTouchIcon() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+
+  // 1. Fundo sólido suave (Verde Sálvia Claro #E6F0EA) — O iOS corta as bordas em squircle
+  ctx.fillStyle = '#E6F0EA';
+  ctx.fillRect(0, 0, 512, 512);
+
+  // 2. Círculo central subtil para dar ainda mais margem visual (Raio 140px num canvas de 512px)
+  ctx.fillStyle = '#D5E6DC';
+  ctx.beginPath();
+  ctx.arc(256, 256, 136, 0, Math.PI * 2);
+  ctx.fill();
+
+  // 3. Ícone Minimalista ao Centro (Folha / Rebento em linha fina #3F624D, ocupando apenas 36% do centro)
+  ctx.strokeStyle = '#3F624D';
+  ctx.lineWidth = 22;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  // Caule central
+  ctx.beginPath();
+  ctx.moveTo(256, 330);
+  ctx.lineTo(256, 215);
+  ctx.stroke();
+
+  // Folha direita
+  ctx.beginPath();
+  ctx.moveTo(256, 255);
+  ctx.quadraticCurveTo(256, 185, 325, 185);
+  ctx.quadraticCurveTo(325, 255, 256, 255);
+  ctx.stroke();
+
+  // Folha esquerda
+  ctx.beginPath();
+  ctx.moveTo(256, 280);
+  ctx.quadraticCurveTo(256, 225, 195, 225);
+  ctx.quadraticCurveTo(195, 280, 256, 280);
+  ctx.stroke();
+
+  const iconLink = document.getElementById('apple-icon');
+  if (iconLink) {
+    iconLink.href = canvas.toDataURL('image/png');
+  }
+}
 
 function refreshIcons() {
   if (window.lucide) {
@@ -35,7 +85,7 @@ function refreshIcons() {
 }
 
 function setSyncBadge(iconName, text) {
-  syncStatus.innerHTML = `<i data-lucide="${iconName}"></i> ${text}`;
+  syncStatus.innerHTML = `<i data-lucide="${iconName}"></i><span class="sync-text">${text}</span>`;
   refreshIcons();
 }
 
@@ -43,7 +93,9 @@ function setSyncBadge(iconName, text) {
 // 1. AUTENTICAÇÃO E LIGAÇÃO AO GITHUB GIST
 // ============================================================================
 async function initApp() {
+  generateSafeTouchIcon();
   refreshIcons();
+
   const token = localStorage.getItem(TOKEN_KEY);
   if (!token) {
     authScreen.classList.remove('hidden');
@@ -147,7 +199,7 @@ async function syncFromGitHub() {
   let gistId = localStorage.getItem(GIST_ID_KEY);
   if (!token) return;
 
-  setSyncBadge('loader', 'A sincronizar...');
+  setSyncBadge('loader', 'A atualizar');
 
   try {
     if (!gistId) {
@@ -171,7 +223,7 @@ async function syncFromGitHub() {
     renderEverything();
     setSyncBadge('check-circle-2', 'Sincronizado');
   } catch (err) {
-    setSyncBadge('wifi-off', 'Modo Offline');
+    setSyncBadge('wifi-off', 'Offline');
   }
 }
 
@@ -180,7 +232,7 @@ async function saveToGitHub() {
   const gistId = localStorage.getItem(GIST_ID_KEY);
   if (!token || !gistId) return;
 
-  setSyncBadge('cloud-upload', 'A guardar...');
+  setSyncBadge('cloud-upload', 'A guardar');
 
   try {
     const res = await fetch(`https://api.github.com/gists/${gistId}`, {
@@ -201,7 +253,7 @@ async function saveToGitHub() {
     if (!res.ok) throw new Error('Erro ao gravar');
     setSyncBadge('check-circle-2', 'Guardado');
   } catch (err) {
-    setSyncBadge('hard-drive', 'Guardado localmente');
+    setSyncBadge('hard-drive', 'Local');
   }
 }
 
@@ -270,7 +322,7 @@ dailyForm.addEventListener('submit', async (e) => {
 });
 
 // ============================================================================
-// 4. ATUALIZAR VISUALIZAÇÃO (ESTATÍSTICAS, GRÁFICO, HISTÓRICO COM ÍCONES)
+// 4. ATUALIZAR VISUALIZAÇÃO
 // ============================================================================
 function renderEverything() {
   populateFormForDate(logDateInput.value);
@@ -290,7 +342,7 @@ function renderStats() {
   const workoutCount = last7.filter(l => l.exercise !== 'descanso').length;
 
   document.getElementById('stat-diet').textContent = `${dietOkCount}/${last7.length || 7} dias`;
-  document.getElementById('stat-exercise').textContent = `${workoutCount} treinos`;
+  document.getElementById('stat-exercise').textContent = `${workoutCount}x`;
 }
 
 function renderChart() {
@@ -368,14 +420,12 @@ function renderHistory() {
       </div>
     `;
 
-    // Clicar no botão do caixote do lixo apaga sem selecionar a linha
     const deleteBtn = li.querySelector('.btn-delete-item');
     deleteBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       deleteLogByDate(item.log_date);
     });
 
-    // Clicar no resto da linha carrega o dia no formulário para editar
     li.addEventListener('click', () => {
       logDateInput.value = item.log_date;
       populateFormForDate(item.log_date);
@@ -398,5 +448,4 @@ function formatLongDate(dateStr) {
   return dateObj.toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' });
 }
 
-// Iniciar aplicação
 initApp();

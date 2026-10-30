@@ -2,14 +2,20 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Equilíbrio — Registo Diário</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Equilíbrio</title>
+  
+  <!-- Configuração Web App Nativa iOS & Android -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Equilíbrio">
+  <meta name="theme-color" content="#F5F3EE">
+  
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#F5F3EE">
-  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/4343/4343326.png">
+  <!-- Este link é preenchido automaticamente pelo app.js com um PNG de 512x512 com ampla margem para o iPhone -->
+  <link id="apple-icon" rel="apple-touch-icon" href="">
   
-  <!-- Chart.js (Gráfico) e Lucide Icons (Ícones Minimalistas) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
@@ -39,24 +45,28 @@
   <main id="app-screen" class="app-container hidden">
     <header class="app-header">
       <div class="brand">
-        <div class="brand-icon"><i data-lucide="leaf"></i></div>
-        <div>
+        <div class="brand-icon"><i data-lucide="sprout"></i></div>
+        <div class="brand-text">
           <h1>Equilíbrio</h1>
-          <p class="subtitle">Chega-lhe calor.</p>
+          <p class="subtitle">Consistência sem extremos.</p>
         </div>
       </div>
       <div class="header-actions">
-        <span id="sync-status" class="sync-indicator"><i data-lucide="check-circle-2"></i> Pronto</span>
-        <button id="refresh-btn" class="btn-ghost" title="Sincronizar agora">
+        <span id="sync-status" class="sync-indicator">
+          <i data-lucide="check-circle-2"></i>
+          <span class="sync-text">Pronto</span>
+        </span>
+        <button id="refresh-btn" class="btn-icon" title="Sincronizar agora" aria-label="Sincronizar">
           <i data-lucide="refresh-cw"></i>
         </button>
-        <button id="logout-btn" class="btn-ghost" title="Terminar sessão">
-          <i data-lucide="log-out"></i> <span>Sair</span>
+        <button id="logout-btn" class="btn-icon" title="Terminar sessão" aria-label="Sair">
+          <i data-lucide="log-out"></i>
+          <span class="logout-text">Sair</span>
         </button>
       </div>
     </header>
 
-    <!-- GRELHA PRINCIPAL (1 coluna no telemóvel, 2 colunas no PC) -->
+    <!-- GRELHA PRINCIPAL -->
     <div class="dashboard-grid">
       
       <!-- COLUNA ESQUERDA: Estatísticas + Formulário Diário -->
@@ -65,7 +75,7 @@
           <div class="stat-box">
             <div class="stat-head">
               <i data-lucide="scale" class="icon-weight"></i>
-              <span class="stat-label">Último Peso</span>
+              <span class="stat-label">Peso</span>
             </div>
             <strong id="stat-weight" class="stat-value">-- kg</strong>
           </div>
@@ -79,7 +89,7 @@
           <div class="stat-box">
             <div class="stat-head">
               <i data-lucide="activity" class="icon-exercise"></i>
-              <span class="stat-label">Treinos (7d)</span>
+              <span class="stat-label">Treino (7d)</span>
             </div>
             <strong id="stat-exercise" class="stat-value">--</strong>
           </div>
@@ -88,7 +98,6 @@
         <section class="card form-card">
           <div class="card-header">
             <h2><i data-lucide="calendar-check"></i> Registo do Dia</h2>
-            <!-- Aparece apenas quando a data selecionada já tem registo -->
             <button type="button" id="delete-current-btn" class="btn-danger-ghost hidden" title="Apagar o registo deste dia">
               <i data-lucide="trash-2"></i> Apagar
             </button>
@@ -102,7 +111,7 @@
               </div>
               <div class="field">
                 <label for="log-weight"><i data-lucide="scale"></i> Peso (kg) <span class="muted">(opc.)</span></label>
-                <input type="number" id="log-weight" step="0.1" min="30" max="250" placeholder="Ex: 74.2">
+                <input type="number" id="log-weight" inputmode="decimal" step="0.1" min="30" max="250" placeholder="Ex: 74.2">
               </div>
             </div>
 
@@ -123,20 +132,20 @@
 
             <div class="field">
               <label><i data-lucide="dumbbell"></i> Movimento / Exercício</label>
-              <div class="selector-group">
+              <div class="selector-group selector-3">
                 <input type="radio" id="ex-none" name="exercise" value="descanso" checked>
                 <label for="ex-none" class="selector-pill pill-ex-none">
-                  <i data-lucide="moon"></i> Descanso
+                  <i data-lucide="moon"></i> <span>Descanso</span>
                 </label>
 
                 <input type="radio" id="ex-light" name="exercise" value="leve">
                 <label for="ex-light" class="selector-pill pill-ex-light">
-                  <i data-lucide="footprints"></i> Leve
+                  <i data-lucide="footprints"></i> <span>Leve</span>
                 </label>
 
                 <input type="radio" id="ex-heavy" name="exercise" value="intenso">
                 <label for="ex-heavy" class="selector-pill pill-ex-heavy">
-                  <i data-lucide="flame"></i> Pesado
+                  <i data-lucide="flame"></i> <span>Pesado</span>
                 </label>
               </div>
             </div>
@@ -162,7 +171,7 @@
         <section class="card history-card">
           <div class="card-header">
             <h2><i data-lucide="history"></i> Registos Recentes</h2>
-            <span class="muted-hint">Clica num dia para editar</span>
+            <span class="muted-hint">Toca para editar</span>
           </div>
           <ul id="logs-list" class="logs-list"></ul>
         </section>

@@ -8,23 +8,23 @@
   --radius: 16px;
 
   /* Paleta Semântica Suave */
-  --sage: #3F624D;         /* Dieta cumprida */
+  --sage: #3F624D;
   --sage-bg: #E6F0EA;
   --sage-border: #C4D9CC;
 
-  --terracotta: #9E5542;   /* Dia livre / Eliminar */
+  --terracotta: #9E5542;
   --terracotta-bg: #F6EAE6;
   --terracotta-border: #E6C9C1;
 
-  --stone: #635F59;        /* Descanso */
+  --stone: #635F59;
   --stone-bg: #EAE7E1;
   --stone-border: #D5D0C7;
 
-  --slate: #355C7D;        /* Exercício Leve */
+  --slate: #355C7D;
   --slate-bg: #E6EFF6;
   --slate-border: #C2D7E8;
 
-  --amber: #8C5828;        /* Exercício Pesado */
+  --amber: #8C5828;
   --amber-bg: #F6EDE2;
   --amber-border: #E5CFB6;
 }
@@ -37,185 +37,108 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-body {
+html, body {
+  overflow-x: hidden;
   background-color: var(--bg);
   color: var(--text);
-  padding: 20px 16px 40px;
+}
+
+body {
+  padding: max(16px, env(safe-area-inset-top)) 14px max(32px, env(safe-area-inset-bottom));
   display: flex;
   justify-content: center;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .hidden {
   display: none !important;
 }
 
-/* Ajuste de Ícones Lucide */
+/* Ícones Lucide */
 .lucide {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
   stroke-width: 2;
-  vertical-align: -3px;
   flex-shrink: 0;
 }
 
-/* Contentor Mobile-First */
 .app-container {
   width: 100%;
   max-width: 500px;
 }
 
-/* Header */
+/* ============================================================================
+   CABEÇALHO RESPONSIVO (Não atropela em ecrãs pequenos)
+   ============================================================================ */
 .app-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
 }
 
 .brand-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
   background: var(--sage-bg);
   color: var(--sage);
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .brand-icon .lucide {
-  width: 20px;
-  height: 20px;
+  width: 19px;
+  height: 19px;
+}
+
+.brand-text {
+  min-width: 0;
+}
+
+h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-h1 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-h2 {
-  font-size: 0.98rem;
-  font-weight: 600;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-
-h2 .lucide {
-  color: var(--text-muted);
-}
-
-.subtitle {
-  color: var(--text-muted);
-  font-size: 0.82rem;
-}
-
-.muted-hint {
-  font-size: 0.75rem;
-  color: var(--text-muted);
-}
-
-.badge {
-  display: inline-flex;
-  align-items: center;
   gap: 6px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--sage);
-  background: var(--sage-bg);
-  padding: 5px 11px;
-  border-radius: 20px;
-  margin-bottom: 10px;
-}
-
-/* Estatísticas Rápidas */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.stat-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 12px;
-}
-
-.stat-head {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  margin-bottom: 4px;
-}
-
-.stat-head .lucide {
-  width: 14px;
-  height: 14px;
-}
-
-.icon-weight { color: var(--slate); }
-.icon-diet { color: var(--sage); }
-.icon-exercise { color: var(--amber); }
-
-.stat-label {
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
-.stat-value {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-/* Cartões */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  margin-bottom: 14px;
-  box-shadow: 0 2px 8px rgba(40, 38, 36, 0.02);
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 14px;
-  min-height: 26px;
+  flex-shrink: 0;
 }
 
 .sync-indicator {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 500;
   color: var(--text-muted);
   background: var(--surface-alt);
-  padding: 6px 10px;
-  border-radius: 10px;
+  padding: 6px 9px;
+  border-radius: 9px;
+  white-space: nowrap;
 }
 
 .sync-indicator .lucide {
@@ -224,30 +147,162 @@ h2 .lucide {
   color: var(--sage);
 }
 
-/* Formulários e Inputs */
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  height: 34px;
+  padding: 0 10px;
+  border-radius: 9px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-icon:active {
+  background: var(--surface-alt);
+}
+
+/* Em telemóveis, esconde o texto "Sair" e deixa apenas os ícones limpos */
+@media (max-width: 480px) {
+  .logout-text {
+    display: none;
+  }
+  .sync-text {
+    max-width: 72px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* ============================================================================
+   GRELHA DE ESTATÍSTICAS
+   ============================================================================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 10px 8px;
+  text-align: center;
+  min-width: 0;
+}
+
+.stat-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 3px;
+}
+
+.stat-head .lucide {
+  width: 13px;
+  height: 13px;
+}
+
+.icon-weight { color: var(--slate); }
+.icon-diet { color: var(--sage); }
+.icon-exercise { color: var(--amber); }
+
+.stat-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.stat-value {
+  display: block;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* ============================================================================
+   CARTÕES E FORMULÁRIO (Corrige o bug de largura do input date no iOS)
+   ============================================================================ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(40, 38, 36, 0.02);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  min-height: 26px;
+}
+
+h2 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+h2 .lucide {
+  color: var(--text-muted);
+}
+
+.muted-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* No telemóvel, Data e Peso empilham ou usam minmax(0,1fr) sem nunca rebentar a largura */
 .row-2col {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 380px) {
+  .row-2col {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 }
 
 .field {
-  margin-bottom: 14px;
+  margin-bottom: 13px;
+  min-width: 0;
 }
 
 label {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--text-muted);
   margin-bottom: 6px;
+  white-space: nowrap;
 }
 
 label .lucide {
-  width: 14px;
-  height: 14px;
+  width: 13px;
+  height: 13px;
 }
 
 .muted {
@@ -258,15 +313,20 @@ label .lucide {
 input[type="date"],
 input[type="number"],
 input[type="password"] {
+  display: block;
   width: 100%;
-  padding: 10px 12px;
+  max-width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 8px 10px;
   border: 1px solid var(--border);
   border-radius: 11px;
   background: var(--surface-alt);
   color: var(--text);
-  font-size: 0.92rem;
+  font-size: 16px; /* 16px evita que o iPhone faça auto-zoom ao clicar no input */
   outline: none;
-  transition: all 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 input:focus {
@@ -276,8 +336,13 @@ input:focus {
 
 /* Botões Seletores (Dieta e Exercício) */
 .selector-group {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
+}
+
+.selector-group.selector-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .selector-group input[type="radio"] {
@@ -285,21 +350,22 @@ input:focus {
 }
 
 .selector-pill {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 10px 8px;
+  gap: 5px;
+  min-height: 42px;
+  padding: 8px 6px;
   border-radius: 11px;
   background: var(--surface-alt);
   border: 1.5px solid transparent;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;
   margin: 0;
-  transition: all 0.18s ease;
+  white-space: nowrap;
+  transition: all 0.15s ease;
 }
 
 input:checked + .pill-diet-yes {
@@ -337,14 +403,13 @@ input:checked + .pill-ex-heavy {
   font-weight: 600;
 }
 
-/* Botões de Ação e Eliminar */
 .btn-primary {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  padding: 12px;
+  height: 44px;
   border: none;
   border-radius: 11px;
   background: var(--text);
@@ -352,31 +417,7 @@ input:checked + .pill-ex-heavy {
   font-size: 0.92rem;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 4px;
-  transition: opacity 0.2s;
-}
-
-.btn-primary:hover {
-  opacity: 0.92;
-}
-
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text-muted);
-  padding: 7px 11px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.btn-ghost:hover {
-  background: var(--surface-alt);
-  color: var(--text);
+  margin-top: 2px;
 }
 
 .btn-danger-ghost {
@@ -386,97 +427,90 @@ input:checked + .pill-ex-heavy {
   background: var(--terracotta-bg);
   border: 1px solid var(--terracotta-border);
   color: var(--terracotta);
-  padding: 4px 10px;
+  padding: 4px 9px;
   border-radius: 8px;
-  font-size: 0.75rem;
+  font-size: 0.73rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
 }
 
 .btn-danger-ghost .lucide {
-  width: 13px;
-  height: 13px;
-}
-
-.btn-danger-ghost:hover {
-  opacity: 0.85;
+  width: 12px;
+  height: 12px;
 }
 
 /* Gráfico */
 .chart-container {
   position: relative;
-  height: 190px;
+  height: 180px;
   width: 100%;
 }
 
-/* Lista de Histórico */
+/* ============================================================================
+   HISTÓRICO (Alinhamento limpo sem sobreposição no telemóvel)
+   ============================================================================ */
 .logs-list {
   list-style: none;
-  max-height: 290px;
+  max-height: 280px;
   overflow-y: auto;
-  padding-right: 4px;
-}
-
-.logs-list::-webkit-scrollbar {
-  width: 5px;
-}
-
-.logs-list::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 10px;
 }
 
 .log-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 6px;
+  gap: 8px;
+  padding: 10px 4px;
   border-bottom: 1px solid var(--border);
-  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.15s;
-}
-
-.log-item:hover {
-  background: var(--bg);
 }
 
 .log-item:last-child {
   border-bottom: none;
+  padding-bottom: 2px;
+}
+
+.log-date-weight {
+  min-width: 0;
+  flex: 1;
 }
 
 .log-date-weight strong {
   display: block;
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .log-date-weight span {
-  font-size: 0.78rem;
+  display: block;
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
 .log-tags {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   align-items: center;
+  flex-shrink: 0;
 }
 
-/* Etiquetas Coloridas no Histórico */
 .pill-tag {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  font-size: 0.73rem;
+  gap: 3px;
+  font-size: 0.7rem;
   font-weight: 600;
-  padding: 4px 9px;
-  border-radius: 20px;
+  padding: 4px 8px;
+  border-radius: 16px;
+  white-space: nowrap;
 }
 
 .pill-tag .lucide {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
 }
 
 .tag-diet-ok { background: var(--sage-bg); color: var(--sage); }
@@ -485,20 +519,19 @@ input:checked + .pill-ex-heavy {
 .tag-ex-light { background: var(--slate-bg); color: var(--slate); }
 .tag-ex-heavy { background: var(--amber-bg); color: var(--amber); }
 
-/* Botão de Apagar Individual na Lista */
 .btn-delete-item {
   background: transparent;
   border: none;
   color: var(--text-muted);
-  opacity: 0.45;
-  padding: 6px;
-  margin-left: 2px;
-  border-radius: 8px;
+  opacity: 0.55;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.15s;
+  flex-shrink: 0;
 }
 
 .btn-delete-item .lucide {
@@ -514,16 +547,31 @@ input:checked + .pill-ex-heavy {
 }
 
 /* Ecrã de Login */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sage);
+  background: var(--sage-bg);
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
 .auth-wrapper {
   width: 100%;
-  max-width: 420px;
+  max-width: 400px;
   min-height: 85vh;
   display: flex;
   align-items: center;
 }
 
 .auth-card { width: 100%; }
-.auth-card .subtitle { margin-top: 6px; margin-bottom: 20px; }
+.auth-card .subtitle { white-space: normal; margin-top: 6px; margin-bottom: 18px; }
 .error-msg { color: var(--terracotta); font-size: 0.8rem; margin-top: 10px; text-align: center; }
 
 /* ============================================================================
@@ -540,9 +588,28 @@ input:checked + .pill-ex-heavy {
     max-width: 1080px;
   }
 
+  .card {
+    padding: 20px 22px;
+    margin-bottom: 0;
+  }
+
+  .stats-grid {
+    gap: 12px;
+    margin-bottom: 0;
+  }
+
+  .stat-box {
+    padding: 12px;
+    text-align: left;
+  }
+
+  .stat-head {
+    justify-content: flex-start;
+  }
+
   .dashboard-grid {
     display: grid;
-    grid-template-columns: 400px 1fr;
+    grid-template-columns: 410px 1fr;
     gap: 20px;
     align-items: stretch;
   }
@@ -551,10 +618,6 @@ input:checked + .pill-ex-heavy {
     display: flex;
     flex-direction: column;
     gap: 14px;
-  }
-
-  .stats-grid, .card {
-    margin-bottom: 0;
   }
 
   .form-card {
@@ -571,6 +634,6 @@ input:checked + .pill-ex-heavy {
   }
 
   .logs-list {
-    max-height: 215px;
+    max-height: 220px;
   }
 }
