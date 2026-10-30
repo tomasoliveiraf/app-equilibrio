@@ -1,0 +1,15 @@
+{
+  "name": "Equilíbrio — Registo Diário",
+  "short_name": "Equilíbrio",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#F7F6F2",
+  "theme_color": "#F7F6F2",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/4343/4343326.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

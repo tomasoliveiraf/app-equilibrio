@@ -1,0 +1,576 @@
+:root {
+  --bg: #F5F3EE;
+  --surface: #FFFFFF;
+  --surface-alt: #EDEAE2;
+  --text: #282624;
+  --text-muted: #78736C;
+  --border: #E2DDD4;
+  --radius: 16px;
+
+  /* Paleta Semântica Suave */
+  --sage: #3F624D;         /* Dieta cumprida */
+  --sage-bg: #E6F0EA;
+  --sage-border: #C4D9CC;
+
+  --terracotta: #9E5542;   /* Dia livre / Eliminar */
+  --terracotta-bg: #F6EAE6;
+  --terracotta-border: #E6C9C1;
+
+  --stone: #635F59;        /* Descanso */
+  --stone-bg: #EAE7E1;
+  --stone-border: #D5D0C7;
+
+  --slate: #355C7D;        /* Exercício Leve */
+  --slate-bg: #E6EFF6;
+  --slate-border: #C2D7E8;
+
+  --amber: #8C5828;        /* Exercício Pesado */
+  --amber-bg: #F6EDE2;
+  --amber-border: #E5CFB6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  padding: 20px 16px 40px;
+  display: flex;
+  justify-content: center;
+  line-height: 1.45;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Ajuste de Ícones Lucide */
+.lucide {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2;
+  vertical-align: -3px;
+  flex-shrink: 0;
+}
+
+/* Contentor Mobile-First */
+.app-container {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--sage-bg);
+  color: var(--sage);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-icon .lucide {
+  width: 20px;
+  height: 20px;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+h2 .lucide {
+  color: var(--text-muted);
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
+.muted-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sage);
+  background: var(--sage-bg);
+  padding: 5px 11px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+/* Estatísticas Rápidas */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.stat-head {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 4px;
+}
+
+.stat-head .lucide {
+  width: 14px;
+  height: 14px;
+}
+
+.icon-weight { color: var(--slate); }
+.icon-diet { color: var(--sage); }
+.icon-exercise { color: var(--amber); }
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Cartões */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(40, 38, 36, 0.02);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  min-height: 26px;
+}
+
+.sync-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: var(--surface-alt);
+  padding: 6px 10px;
+  border-radius: 10px;
+}
+
+.sync-indicator .lucide {
+  width: 13px;
+  height: 13px;
+  color: var(--sage);
+}
+
+/* Formulários e Inputs */
+.row-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+label .lucide {
+  width: 14px;
+  height: 14px;
+}
+
+.muted {
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+input[type="date"],
+input[type="number"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--surface-alt);
+  color: var(--text);
+  font-size: 0.92rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+input:focus {
+  border-color: var(--sage);
+  background: var(--surface);
+}
+
+/* Botões Seletores (Dieta e Exercício) */
+.selector-group {
+  display: flex;
+  gap: 8px;
+}
+
+.selector-group input[type="radio"] {
+  display: none;
+}
+
+.selector-pill {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 8px;
+  border-radius: 11px;
+  background: var(--surface-alt);
+  border: 1.5px solid transparent;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0;
+  transition: all 0.18s ease;
+}
+
+input:checked + .pill-diet-yes {
+  background: var(--sage-bg);
+  color: var(--sage);
+  border-color: var(--sage-border);
+  font-weight: 600;
+}
+
+input:checked + .pill-diet-no {
+  background: var(--terracotta-bg);
+  color: var(--terracotta);
+  border-color: var(--terracotta-border);
+  font-weight: 600;
+}
+
+input:checked + .pill-ex-none {
+  background: var(--stone-bg);
+  color: var(--stone);
+  border-color: var(--stone-border);
+  font-weight: 600;
+}
+
+input:checked + .pill-ex-light {
+  background: var(--slate-bg);
+  color: var(--slate);
+  border-color: var(--slate-border);
+  font-weight: 600;
+}
+
+input:checked + .pill-ex-heavy {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border-color: var(--amber-border);
+  font-weight: 600;
+}
+
+/* Botões de Ação e Eliminar */
+.btn-primary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px;
+  border: none;
+  border-radius: 11px;
+  background: var(--text);
+  color: #FFFFFF;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: opacity 0.2s;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 7px 11px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-ghost:hover {
+  background: var(--surface-alt);
+  color: var(--text);
+}
+
+.btn-danger-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--terracotta-bg);
+  border: 1px solid var(--terracotta-border);
+  color: var(--terracotta);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-danger-ghost .lucide {
+  width: 13px;
+  height: 13px;
+}
+
+.btn-danger-ghost:hover {
+  opacity: 0.85;
+}
+
+/* Gráfico */
+.chart-container {
+  position: relative;
+  height: 190px;
+  width: 100%;
+}
+
+/* Lista de Histórico */
+.logs-list {
+  list-style: none;
+  max-height: 290px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.logs-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.logs-list::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
+.log-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.log-item:hover {
+  background: var(--bg);
+}
+
+.log-item:last-child {
+  border-bottom: none;
+}
+
+.log-date-weight strong {
+  display: block;
+  font-size: 0.88rem;
+  text-transform: capitalize;
+}
+
+.log-date-weight span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.log-tags {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Etiquetas Coloridas no Histórico */
+.pill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.73rem;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 20px;
+}
+
+.pill-tag .lucide {
+  width: 12px;
+  height: 12px;
+}
+
+.tag-diet-ok { background: var(--sage-bg); color: var(--sage); }
+.tag-diet-free { background: var(--terracotta-bg); color: var(--terracotta); }
+.tag-ex-none { background: var(--stone-bg); color: var(--stone); }
+.tag-ex-light { background: var(--slate-bg); color: var(--slate); }
+.tag-ex-heavy { background: var(--amber-bg); color: var(--amber); }
+
+/* Botão de Apagar Individual na Lista */
+.btn-delete-item {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  opacity: 0.45;
+  padding: 6px;
+  margin-left: 2px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.btn-delete-item .lucide {
+  width: 14px;
+  height: 14px;
+}
+
+.btn-delete-item:hover,
+.btn-delete-item:active {
+  opacity: 1;
+  color: var(--terracotta);
+  background: var(--terracotta-bg);
+}
+
+/* Ecrã de Login */
+.auth-wrapper {
+  width: 100%;
+  max-width: 420px;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+}
+
+.auth-card { width: 100%; }
+.auth-card .subtitle { margin-top: 6px; margin-bottom: 20px; }
+.error-msg { color: var(--terracotta); font-size: 0.8rem; margin-top: 10px; text-align: center; }
+
+/* ============================================================================
+   LAYOUT HORIZONTAL PARA PC (Ecrãs largos — Sem necessidade de Scroll)
+   ============================================================================ */
+@media (min-width: 900px) {
+  body {
+    padding: 24px 32px;
+    min-height: 100vh;
+    align-items: center;
+  }
+
+  .app-container {
+    max-width: 1080px;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 20px;
+    align-items: stretch;
+  }
+
+  .col-left, .col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .stats-grid, .card {
+    margin-bottom: 0;
+  }
+
+  .form-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .history-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .logs-list {
+    max-height: 215px;
+  }
+}

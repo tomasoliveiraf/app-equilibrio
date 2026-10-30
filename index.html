@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Equilíbrio — Registo Diário</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#F5F3EE">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/4343/4343326.png">
+  
+  <!-- Chart.js (Gráfico) e Lucide Icons (Ícones Minimalistas) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- ECRÃ DE LOGIN -->
+  <main id="auth-screen" class="auth-wrapper hidden">
+    <div class="card auth-card">
+      <span class="badge"><i data-lucide="cloud"></i> Sincronização Cloud</span>
+      <h1>Equilíbrio</h1>
+      <p class="subtitle">Introduz o teu Token do GitHub (com permissão <code>gist</code>) para sincronizar os teus dados entre telemóvel e PC.</p>
+      
+      <form id="login-form">
+        <div class="field">
+          <label for="gh-token"><i data-lucide="key-round"></i> GitHub Token</label>
+          <input type="password" id="gh-token" required placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+        </div>
+        <button type="submit" class="btn-primary" id="login-btn">
+          <i data-lucide="log-in"></i> Ligar Conta e Entrar
+        </button>
+        <p id="auth-error" class="error-msg"></p>
+      </form>
+    </div>
+  </main>
+
+  <!-- ECRÃ PRINCIPAL DA APP -->
+  <main id="app-screen" class="app-container hidden">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon"><i data-lucide="leaf"></i></div>
+        <div>
+          <h1>Equilíbrio</h1>
+          <p class="subtitle">Chega-lhe calor.</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <span id="sync-status" class="sync-indicator"><i data-lucide="check-circle-2"></i> Pronto</span>
+        <button id="refresh-btn" class="btn-ghost" title="Sincronizar agora">
+          <i data-lucide="refresh-cw"></i>
+        </button>
+        <button id="logout-btn" class="btn-ghost" title="Terminar sessão">
+          <i data-lucide="log-out"></i> <span>Sair</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- GRELHA PRINCIPAL (1 coluna no telemóvel, 2 colunas no PC) -->
+    <div class="dashboard-grid">
+      
+      <!-- COLUNA ESQUERDA: Estatísticas + Formulário Diário -->
+      <div class="col-left">
+        <section class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-head">
+              <i data-lucide="scale" class="icon-weight"></i>
+              <span class="stat-label">Último Peso</span>
+            </div>
+            <strong id="stat-weight" class="stat-value">-- kg</strong>
+          </div>
+          <div class="stat-box">
+            <div class="stat-head">
+              <i data-lucide="utensils" class="icon-diet"></i>
+              <span class="stat-label">Dieta (7d)</span>
+            </div>
+            <strong id="stat-diet" class="stat-value">--/7</strong>
+          </div>
+          <div class="stat-box">
+            <div class="stat-head">
+              <i data-lucide="activity" class="icon-exercise"></i>
+              <span class="stat-label">Treinos (7d)</span>
+            </div>
+            <strong id="stat-exercise" class="stat-value">--</strong>
+          </div>
+        </section>
+
+        <section class="card form-card">
+          <div class="card-header">
+            <h2><i data-lucide="calendar-check"></i> Registo do Dia</h2>
+            <!-- Aparece apenas quando a data selecionada já tem registo -->
+            <button type="button" id="delete-current-btn" class="btn-danger-ghost hidden" title="Apagar o registo deste dia">
+              <i data-lucide="trash-2"></i> Apagar
+            </button>
+          </div>
+
+          <form id="daily-form">
+            <div class="row-2col">
+              <div class="field">
+                <label for="log-date"><i data-lucide="calendar"></i> Data</label>
+                <input type="date" id="log-date" required>
+              </div>
+              <div class="field">
+                <label for="log-weight"><i data-lucide="scale"></i> Peso (kg) <span class="muted">(opc.)</span></label>
+                <input type="number" id="log-weight" step="0.1" min="30" max="250" placeholder="Ex: 74.2">
+              </div>
+            </div>
+
+            <div class="field">
+              <label><i data-lucide="utensils"></i> Alimentação planeada</label>
+              <div class="selector-group">
+                <input type="radio" id="diet-yes" name="diet" value="cumprida" checked>
+                <label for="diet-yes" class="selector-pill pill-diet-yes">
+                  <i data-lucide="check"></i> Cumprida
+                </label>
+
+                <input type="radio" id="diet-no" name="diet" value="livre">
+                <label for="diet-no" class="selector-pill pill-diet-no">
+                  <i data-lucide="coffee"></i> Dia livre
+                </label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label><i data-lucide="dumbbell"></i> Movimento / Exercício</label>
+              <div class="selector-group">
+                <input type="radio" id="ex-none" name="exercise" value="descanso" checked>
+                <label for="ex-none" class="selector-pill pill-ex-none">
+                  <i data-lucide="moon"></i> Descanso
+                </label>
+
+                <input type="radio" id="ex-light" name="exercise" value="leve">
+                <label for="ex-light" class="selector-pill pill-ex-light">
+                  <i data-lucide="footprints"></i> Leve
+                </label>
+
+                <input type="radio" id="ex-heavy" name="exercise" value="intenso">
+                <label for="ex-heavy" class="selector-pill pill-ex-heavy">
+                  <i data-lucide="flame"></i> Pesado
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="save-btn">
+              <i data-lucide="check"></i> Guardar Dia
+            </button>
+          </form>
+        </section>
+      </div>
+
+      <!-- COLUNA DIREITA: Gráfico + Histórico -->
+      <div class="col-right">
+        <section class="card chart-card">
+          <div class="card-header">
+            <h2><i data-lucide="trending-down"></i> Evolução de Peso</h2>
+          </div>
+          <div class="chart-container">
+            <canvas id="weight-chart"></canvas>
+          </div>
+        </section>
+
+        <section class="card history-card">
+          <div class="card-header">
+            <h2><i data-lucide="history"></i> Registos Recentes</h2>
+            <span class="muted-hint">Clica num dia para editar</span>
+          </div>
+          <ul id="logs-list" class="logs-list"></ul>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
