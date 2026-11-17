@@ -13,7 +13,6 @@
   
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
-  <!-- Este link é preenchido automaticamente pelo app.js com um PNG de 512x512 com ampla margem para o iPhone -->
   <link id="apple-icon" rel="apple-touch-icon" href="">
   
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -21,7 +20,6 @@
 </head>
 <body>
 
-  <!-- ECRÃ DE LOGIN -->
   <main id="auth-screen" class="auth-wrapper hidden">
     <div class="card auth-card">
       <span class="badge"><i data-lucide="cloud"></i> Sincronização Cloud</span>
@@ -41,14 +39,13 @@
     </div>
   </main>
 
-  <!-- ECRÃ PRINCIPAL DA APP -->
   <main id="app-screen" class="app-container hidden">
     <header class="app-header">
       <div class="brand">
         <div class="brand-icon"><i data-lucide="sprout"></i></div>
         <div class="brand-text">
           <h1>Equilíbrio</h1>
-          <p class="subtitle">Chega-lhe calor.</p>
+          <p class="subtitle">Consistência sem extremos.</p>
         </div>
       </div>
       <div class="header-actions">
@@ -66,11 +63,10 @@
       </div>
     </header>
 
-    <!-- GRELHA PRINCIPAL -->
     <div class="dashboard-grid">
-      
-      <!-- COLUNA ESQUERDA: Estatísticas + Formulário Diário -->
       <div class="col-left">
+        
+        <!-- NOVA GRELHA DE ESTATÍSTICAS -->
         <section class="stats-grid">
           <div class="stat-box">
             <div class="stat-head">
@@ -78,6 +74,7 @@
               <span class="stat-label">Peso</span>
             </div>
             <strong id="stat-weight" class="stat-value">-- kg</strong>
+            <span id="stat-weight-diff" class="stat-sub"></span>
           </div>
           <div class="stat-box">
             <div class="stat-head">
@@ -85,6 +82,7 @@
               <span class="stat-label">Dieta (7d)</span>
             </div>
             <strong id="stat-diet" class="stat-value">--/7</strong>
+            <span id="stat-diet-month" class="stat-sub"></span>
           </div>
           <div class="stat-box">
             <div class="stat-head">
@@ -92,6 +90,7 @@
               <span class="stat-label">Treino (7d)</span>
             </div>
             <strong id="stat-exercise" class="stat-value">--</strong>
+            <span class="stat-sub" style="opacity: 0">.</span> <!-- Invisível, apenas para alinhar a altura das caixas -->
           </div>
         </section>
 
@@ -122,7 +121,6 @@
                 <label for="diet-yes" class="selector-pill pill-diet-yes">
                   <i data-lucide="check"></i> Cumprida
                 </label>
-
                 <input type="radio" id="diet-no" name="diet" value="livre">
                 <label for="diet-no" class="selector-pill pill-diet-no">
                   <i data-lucide="coffee"></i> Dia livre
@@ -137,12 +135,10 @@
                 <label for="ex-none" class="selector-pill pill-ex-none">
                   <i data-lucide="moon"></i> <span>Descanso</span>
                 </label>
-
                 <input type="radio" id="ex-light" name="exercise" value="leve">
                 <label for="ex-light" class="selector-pill pill-ex-light">
                   <i data-lucide="footprints"></i> <span>Leve</span>
                 </label>
-
                 <input type="radio" id="ex-heavy" name="exercise" value="intenso">
                 <label for="ex-heavy" class="selector-pill pill-ex-heavy">
                   <i data-lucide="flame"></i> <span>Pesado</span>
@@ -157,7 +153,6 @@
         </section>
       </div>
 
-      <!-- COLUNA DIREITA: Gráfico + Histórico -->
       <div class="col-right">
         <section class="card chart-card">
           <div class="card-header">

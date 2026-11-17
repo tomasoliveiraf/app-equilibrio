@@ -28,7 +28,7 @@ const todayStr = new Date().toLocaleDateString('en-CA');
 logDateInput.value = todayStr;
 
 // ============================================================================
-// 0. GERADOR DE ÍCONE MINIMALISTA COM MARGEM AMPLA PARA IPHONE (APPLE TOUCH ICON)
+// 0. GERADOR DE ÍCONE MINIMALISTA COM MARGEM AMPLA PARA IPHONE
 // ============================================================================
 function generateSafeTouchIcon() {
   const canvas = document.createElement('canvas');
@@ -36,36 +36,30 @@ function generateSafeTouchIcon() {
   canvas.height = 512;
   const ctx = canvas.getContext('2d');
 
-  // 1. Fundo sólido suave (Verde Sálvia Claro #E6F0EA) — O iOS corta as bordas em squircle
   ctx.fillStyle = '#E6F0EA';
   ctx.fillRect(0, 0, 512, 512);
 
-  // 2. Círculo central subtil para dar ainda mais margem visual (Raio 140px num canvas de 512px)
   ctx.fillStyle = '#D5E6DC';
   ctx.beginPath();
   ctx.arc(256, 256, 136, 0, Math.PI * 2);
   ctx.fill();
 
-  // 3. Ícone Minimalista ao Centro (Folha / Rebento em linha fina #3F624D, ocupando apenas 36% do centro)
   ctx.strokeStyle = '#3F624D';
   ctx.lineWidth = 22;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 
-  // Caule central
   ctx.beginPath();
   ctx.moveTo(256, 330);
   ctx.lineTo(256, 215);
   ctx.stroke();
 
-  // Folha direita
   ctx.beginPath();
   ctx.moveTo(256, 255);
   ctx.quadraticCurveTo(256, 185, 325, 185);
   ctx.quadraticCurveTo(325, 255, 256, 255);
   ctx.stroke();
 
-  // Folha esquerda
   ctx.beginPath();
   ctx.moveTo(256, 280);
   ctx.quadraticCurveTo(256, 225, 195, 225);
@@ -262,6 +256,8 @@ async function saveToGitHub() {
 // ============================================================================
 logDateInput.addEventListener('change', () => {
   populateFormForDate(logDateInput.value);
+  // Atualiza também as estatísticas quando mudas de mês no calendário
+  renderStats();
 });
 
 function populateFormForDate(dateStr) {
@@ -333,16 +329,54 @@ function renderEverything() {
 }
 
 function renderStats() {
+  // 1. PESO E DIFERENÇA TOTAL
   const withWeight = allLogs.filter(l => l.weight !== null);
-  const lastWeight = withWeight.length > 0 ? `${withWeight[withWeight.length - 1].weight} kg` : '-- kg';
-  document.getElementById('stat-weight').textContent = lastWeight;
+  const weightDiffEl = document.getElementById('stat-weight-diff');
+  
+  if (withWeight.length > 0) {
+    const lastW = withWeight[withWeight.length - 1].weight;
+    document.getElementById('stat-weight').textContent = `${lastW} kg`;
 
+    if (withWeight.length > 1) {
+      const firstW = withWeight[0].weight;
+      const diff = (lastW - firstW).toFixed(1);
+      
+      if (diff < 0) {
+        weightDiffEl.innerHTML = `<span class="diff-down">↓ ${Math.abs(diff)} kg</span> total`;
+      } else if (diff > 0) {
+        weightDiffEl.innerHTML = `<span class="diff-up">↑ ${diff} kg</span> total`;
+      } else {
+        weightDiffEl.textContent = 'Sem alteração';
+      }
+    } else {
+      weightDiffEl.textContent = 'Início do registo';
+    }
+  } else {
+    document.getElementById('stat-weight').textContent = '-- kg';
+    weightDiffEl.textContent = '';
+  }
+
+  // 2. DIETA (7 DIAS) E TREINO (7 DIAS)
   const last7 = allLogs.slice(-7);
   const dietOkCount = last7.filter(l => l.diet === 'cumprida').length;
   const workoutCount = last7.filter(l => l.exercise !== 'descanso').length;
 
-  document.getElementById('stat-diet').textContent = `${dietOkCount}/${last7.length || 7} dias`;
+  document.getElementById('stat-diet').textContent = `${dietOkCount}/${last7.length || 7} d`;
   document.getElementById('stat-exercise').textContent = `${workoutCount}x`;
+
+  // 3. DIETA (MÊS SELECIONADO)
+  const dateStr = logDateInput.value; // ex: "2026-11-17"
+  if (dateStr) {
+    const year = dateStr.split('-')[0];
+    const month = dateStr.split('-')[1];
+    const monthPrefix = `${year}-${month}`;
+    const daysInMonth = new Date(year, month, 0).getDate();
+    
+    const monthLogs = allLogs.filter(l => l.log_date.startsWith(monthPrefix));
+    const dietMonthOk = monthLogs.filter(l => l.diet === 'cumprida').length;
+    
+    document.getElementById('stat-diet-month').textContent = `${dietMonthOk}/${daysInMonth} no mês`;
+  }
 }
 
 function renderChart() {
@@ -429,6 +463,8 @@ function renderHistory() {
     li.addEventListener('click', () => {
       logDateInput.value = item.log_date;
       populateFormForDate(item.log_date);
+      // Sempre que clicas no histórico, ele recalcula a estatística para aquele mês
+      renderStats();
       if (window.innerWidth < 900) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
