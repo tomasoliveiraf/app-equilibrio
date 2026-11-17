@@ -356,16 +356,33 @@ function renderStats() {
     weightDiffEl.textContent = '';
   }
 
-  // 2. DIETA (7 DIAS) E TREINO (7 DIAS)
+  // 2. DIETA E TREINO (7 DIAS)
   const last7 = allLogs.slice(-7);
+  
+  // Dieta (7 dias)
   const dietOkCount = last7.filter(l => l.diet === 'cumprida').length;
-  const workoutCount = last7.filter(l => l.exercise !== 'descanso').length;
-
   document.getElementById('stat-diet').textContent = `${dietOkCount}/${last7.length || 7} d`;
-  document.getElementById('stat-exercise').textContent = `${workoutCount}x`;
+  
+  // Treino (7 dias - Total e Split)
+  const workoutLightCount = last7.filter(l => l.exercise === 'leve').length;
+  const workoutHeavyCount = last7.filter(l => l.exercise === 'intenso').length;
+  const totalWorkoutCount = workoutLightCount + workoutHeavyCount;
 
-  // 3. DIETA (MÊS SELECIONADO)
-  const dateStr = logDateInput.value; // ex: "2026-11-17"
+  document.getElementById('stat-exercise').textContent = `${totalWorkoutCount}/${last7.length || 7} d`;
+  
+  const exSplitEl = document.getElementById('stat-exercise-split');
+  if (totalWorkoutCount > 0) {
+    exSplitEl.innerHTML = `
+      <span style="color: var(--slate)"><i data-lucide="footprints" style="width:11px;height:11px;vertical-align:-1px;"></i> ${workoutLightCount}</span>
+      &nbsp;&nbsp;&nbsp;
+      <span style="color: var(--amber)"><i data-lucide="flame" style="width:11px;height:11px;vertical-align:-1px;"></i> ${workoutHeavyCount}</span>
+    `;
+  } else {
+    exSplitEl.textContent = 'Só descanso';
+  }
+
+  // 3. DIETA E TREINO (MÊS SELECIONADO)
+  const dateStr = logDateInput.value;
   if (dateStr) {
     const year = dateStr.split('-')[0];
     const month = dateStr.split('-')[1];
@@ -373,9 +390,17 @@ function renderStats() {
     const daysInMonth = new Date(year, month, 0).getDate();
     
     const monthLogs = allLogs.filter(l => l.log_date.startsWith(monthPrefix));
-    const dietMonthOk = monthLogs.filter(l => l.diet === 'cumprida').length;
     
+    // Dieta Mensal
+    const dietMonthOk = monthLogs.filter(l => l.diet === 'cumprida').length;
     document.getElementById('stat-diet-month').textContent = `${dietMonthOk}/${daysInMonth} no mês`;
+
+    // Treino Mensal
+    const exMonthLight = monthLogs.filter(l => l.exercise === 'leve').length;
+    const exMonthHeavy = monthLogs.filter(l => l.exercise === 'intenso').length;
+    const exMonthTotal = exMonthLight + exMonthHeavy;
+    
+    document.getElementById('stat-exercise-month').textContent = `${exMonthTotal}/${daysInMonth} no mês`;
   }
 }
 
